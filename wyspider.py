@@ -16,9 +16,7 @@ weburl='http://music.163.com'
 url='http://music.163.com/discover/playlist/?order=hot&cat=%E5%8D%8E%E8%AF%AD&limit=35&offset=0'
 proxyurl = 'http://www.xicidaili.com/nn/'
 headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.86 Safari/537.36',
-        'Connection':'keep-alive',
-        'Content-Type':'application/x-www-form-urlencoded'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36',
     }
 class playList(Base):
     # 表的名字:
@@ -101,8 +99,8 @@ def loopGetSongHotComment(play):
         if (session.query(hotComment).filter(hotComment.songId==songNum.group(0)).first() == None):
             purl = 'https://music.163.com/weapi/v1/resource/comments/R_SO_4_' + str(songNum.group(0)) + '?csrf_token='
             pdata = {
-                'params': 'JiD7U7mtDQVuxUDMg9VeD7csDSIu8ggw/Nn+46FarrWMzEAoL6BA/TIL34M/6sohXMIQqMkZ0PYC9ws3G2+Yn8o4szJm/BZU8QPXLZgdtFzZYP+PF2I8LIA2P4NEQeSchuhmVtRKzmnOgQt1+UMkDQV1GWQtS6g9zfkoz8bAoC/zmW3ds1Zz5ygOyQTcLm9O',
-                'encSecKey': 'd9251db1167fb4bd188916244826205aa1f0760c5f692128367af53468d7cd1876518b4511891c957be6bcc2a83cd9633ea42bed580c286b63d939982054552d20a5afaffa6eea72e18f8de60c9b19e817da9ef6da680e570f7aca1010719f6d5fbc714626b6a49c0fab412d46107e4349ad512c4160731ec8af58a20fc5b087'
+                'params': '86izqm9pXMfwPlcexEU5A57j2c/9aShEiYA/nv6gKn1o5fz0Hxaw5sjHMNdDBdL+L63Jzs4r1Wee0ZA6QxHjrHdQijT8zudyZ4/oibEZYEjcY9r86kam+OS5hdqTzhso2CxjaqzXn4cm4a9q3LCM8QOf/8ytq65C+3NgvhEvYWTmVbSaENWteytzqgvu34/+',
+                'encSecKey': '1718ddeb7329e40e5b16fc6cc951f8a16e42c1e7eb4fb27a01c3528e1689951780dc05aa422f2785e5a63ccf7d2708d3aa522901f39528d3feb01a873274bc0a1aab8292306dfb27596bde259afa8b2c70d3df582dc5eb881987ae9c0c6b2df77e701d4b7f51002f5f541bfa8f3286b95c51abe413a5ec9d44e942831a67a9bc'
             }
             time.sleep(2)
             hotRes = requests.post(purl, data=pdata,headers=headers)
@@ -113,8 +111,8 @@ def loopGetSongHotComment(play):
                 try:
 
                     csongname = songlist[v].getText()
+                    print csongname
                     csongdd = songNum.group(0)
-                    print '采集['+csongname+'] 热评：id：'+str(csongdd)
                     cconnent = comment[cv]['content']
                     clikecount = comment[cv]['likedCount']
                     cusernikename = comment[cv]['user']['nickname']
@@ -127,9 +125,9 @@ def loopGetSongHotComment(play):
                 except BaseException,e:
                     print e
                     session.rollback()
-                    print '['+songlist[v].getText()+'] 采集时发生错误，rollback数据'
+                    print 'hotCommentrollback'
         else:
-            print '['+songlist[v].getText()+'] 热评已采集'
+            print 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
             continue
 
 
